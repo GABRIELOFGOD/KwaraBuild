@@ -2,7 +2,7 @@ import { MdDriveFileRenameOutline } from 'react-icons/md'
 import { AiOutlineMail } from 'react-icons/ai'
 import { FiPhoneCall } from 'react-icons/fi'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import FormInputs from '../../components/FormInputs'
 
 const Register = () => {
@@ -10,6 +10,9 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
+  
+//  const [error, setError] = useState(null)
+ // const [msg, setMsg] = useState(null)
   
   
   const myInputs = [
@@ -42,13 +45,40 @@ const Register = () => {
       change: (e) => setPassword(e.target.value)
     },
   ]
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const details = {name, email, phone, password}
+    const res = await fetch('http://localhost:5000/api/text',
+    {
+      method: 'POST',
+      body: JSON.stringify(details),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    })
+  }
+  
+  
+  /*const getter = async () => {
+    const res = await fetch('http://localhost:5000/api/text')
+    const response = await res.json()
+    if(!res.ok){
+      setError(response.error)
+    }
+    if(res.ok){
+      setMsg(response.msg)
+    }
+  }
+  
+  useEffect(()=>{
+    getter()
+  },[])*/
+  
   return (
     <div>
-      <form className=' border-2 rounded border-blue-900 my-8 mx-auto md:max-w-sm py-8 px-6' >
-        <h1 className='text-center text-lg font-extrabold py-3'>Register</h1>
-        <FormInputs items={myInputs} />
-        <button className='bg-blue-900 rounded w-full py-4 text-white mt-4' >Register</button>
-      </form>
+      <FormInputs items={myInputs} btn='Register' action={handleSubmit} />
     </div>
   )
 }

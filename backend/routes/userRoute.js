@@ -1,6 +1,7 @@
 const router = require('express').Router()
-const {userRegistration} = require('../controller/userCtrl')
+const {userRegistration, getData} = require('../controller/userCtrl')
 
-router.route('/').get(userRegistration)
+router.route('/register').post(userRegistration)
+router.route('/text').post(getData)
 
-module.exports = (router)
+module.exports = router;
